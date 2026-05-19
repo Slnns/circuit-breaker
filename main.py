@@ -4,8 +4,8 @@ import sys
 
 sys.path.append('.')
 
-import server_service
-from api_client import ApiClient
+from services import server_service
+from services.api_client import ApiClient
 from config import ServerConfig, CircuitBreakerConfig
 
 
