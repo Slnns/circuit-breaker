@@ -29,11 +29,7 @@ def demo_successful_requests():
     for i in range(3):
         response = requests.get(f"{client_url}/api/data")
         result = response.json()
-        # Берем данные напрямую от сервера (без обертки клиента)
-        if 'data' in result:
-            print(f"Запрос {i + 1}: {result['data']}")
-        elif 'data_from_server' in result:
-            print(f"Запрос {i + 1}: {result['data_from_server']}")
+        print(f"Запрос {i + 1}: {result['data']}")
         time.sleep(5)
 
 
@@ -55,7 +51,7 @@ def demo_errors_with_retry():
             print(f"Результат: Ошибка - {result['error']}")
             print(f"Состояние CB: {result.get('circuit_state', 'unknown')}")
         else:
-            print(f"Результат: {result.get('data', result.get('data_from_server', 'success'))}")
+            print(f"Результат: {result['data']}")
 
         time.sleep(3)
 
@@ -78,7 +74,7 @@ def demo_circuit_breaker_opens():
             print(f"Ошибка: {result['error']}")
             print(f"Состояние CB: {result.get('circuit_state', 'unknown')}")
         else:
-            print(f"Успех: {result.get('data', result.get('data_from_server'))}")
+            print(f"Успех: {result['data']}")
 
         time.sleep(3)
 
@@ -88,15 +84,10 @@ def demo_circuit_breaker_recovers():
 
     client_url = f"http://{ClientConfig.CLIENT_HOST}:{ClientConfig.CLIENT_PORT}"
 
-    # Проверяем состояние
-    response = requests.get(f"{client_url}/admin/state")
-    state = response.json()
-    print(f"   Состояние CB: {state.get('circuit_breaker_state', state.get('circuit_state', 'unknown'))}")
-
-    print("\n2. Ждем таймаут...")
+    print("\n1. Ждем таймаут...")
     time.sleep(CircuitBreakerConfig.TIMEOUT_SECONDS + 2)
 
-    print("\n3. Пробный запрос")
+    print("\n2. Пробный запрос")
     set_error_mode(False)
     set_error_rate(0.0)
 
@@ -104,14 +95,13 @@ def demo_circuit_breaker_recovers():
     result = response.json()
 
     if 'error' not in result:
-        data = result.get('data', result.get('data_from_server'))
-        print(f"   Успех: {data}")
+        print(f"   Успех: {result['data']}")
     else:
         print(f"   Ошибка: {result['error']}")
 
     response = requests.get(f"{client_url}/admin/state")
     state = response.json()
-    print(f"   Состояние CB: {state.get('circuit_breaker_state', state.get('circuit_state', 'unknown'))}")
+    print(f"   Состояние CB: {state.get('circuit_breaker_state', 'unknown')}")
 
 
 if __name__ == "__main__":

@@ -1,4 +1,3 @@
-# api_client.py
 from flask import Flask, jsonify
 import requests
 import time
@@ -55,13 +54,9 @@ server_client = ApiClient(
 def get_data():
     try:
         result = server_client.call_service("/api/data")
-        return jsonify({
-            "source": "client_service",
-            "data": result
-        }), 200
+        return jsonify(result), 200
     except Exception as e:
         return jsonify({
-            "source": "client_service",
             "error": str(e),
             "circuit_state": server_client.get_state()
         }), 503
