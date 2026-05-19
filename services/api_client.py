@@ -8,7 +8,7 @@ class ApiClient:
         self.retry_count = retry_count
         self.circuit_breaker = CircuitBreaker(timeout_seconds=10)
 
-    def call_service(self, endpoint="/api/data"):
+    def call_service(self, endpoint):
         def make_request():
             url = f"{self.base_url}{endpoint}"
             response = requests.get(url, timeout=5)
