@@ -5,5 +5,8 @@ class CircuitBreakerConfig:
 
 class ServerConfig:
     SERVER_HOST = "localhost"
-    SERVER_PORT = 8080
-    CLIENT_PORT = 8081
+    SERVER_PORT = 8080         # Порт реального сервера с данными
+
+class ClientConfig:
+    CLIENT_HOST = "localhost"
+    CLIENT_PORT = 8081         # Порт клиентского сервиса (API gateway)

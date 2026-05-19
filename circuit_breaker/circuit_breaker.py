@@ -9,7 +9,7 @@ class CircuitBreaker:
         self.state = CircuitBreakerState.CLOSED
         self.failure_count = 0
         self.last_failure_time = None
-                        # позиционные и именнованые аргументы
+
     def call(self, func, *args, **kwargs):
         if self.state == CircuitBreakerState.OPEN:
             if self._should_attempt_reset():
@@ -41,8 +41,9 @@ class CircuitBreaker:
                 self._transition_to_open()
 
     def _transition_to_open(self):
-        self.state = CircuitBreakerState.OPEN
-        self.last_failure_time = datetime.now()
+        if self.state != CircuitBreakerState.OPEN:
+            self.state = CircuitBreakerState.OPEN
+            self.last_failure_time = datetime.now()
 
     def _reset(self):
         self.state = CircuitBreakerState.CLOSED

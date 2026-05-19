@@ -20,20 +20,6 @@ def get_data():
         "timestamp": "2024-01-01T00:00:00"
     }), 200
 
-@app.route('/api/weather', methods=['GET'])
-def get_weather():
-    global error_mode
-
-    if error_mode or random.random() < error_rate:
-        return jsonify({"error": "Weather service unavailable"}), 500
-
-    return jsonify({
-        "status": "success",
-        "weather": "Sunny",
-        "temperature": 25
-    }), 200
-
-
 def start_server(port=8080):
     app.run(host='localhost', port=port, debug=False, use_reloader=False)
 
