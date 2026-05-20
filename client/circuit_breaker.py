@@ -1,6 +1,5 @@
-import time
 from datetime import datetime
-from .circuit_breaker_state import CircuitBreakerState
+from circuit_breaker_state import CircuitBreakerState
 
 class CircuitBreaker:
     def __init__(self, failure_threshold=3, timeout_seconds=10):

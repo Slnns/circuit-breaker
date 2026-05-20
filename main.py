@@ -5,8 +5,9 @@ import requests
 
 sys.path.append('.')
 
-from services import server_service, set_error_mode, set_error_rate
-from services.api_client import start_client_api_service
+from server import set_error_mode, set_error_rate
+from server import server_service
+from client.api_client import start_client_api_service
 from config import ServerConfig, ClientConfig, CircuitBreakerConfig
 
 
